@@ -2,7 +2,7 @@
 
 ## Quick start
 
-```
+```ruby
 git clone https://github.com/tseijp/next-lambda-web-adapter-test
 cd next-lambda-web-adapter-test
 sam build
@@ -11,7 +11,7 @@ sam deploy --guided
 
 ## Getting started
 
-```
+```ruby
 npx create-next-app@latest --yes
 cd my-app
 ```
@@ -27,7 +27,6 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
-
 ```
 
 ### Create 3 files
@@ -48,14 +47,58 @@ sam deploy --guided
 
 ### Connect to CI/CD
 
-```
+```ruby
 echo 'samconfig.toml' >> .gitignore
 echo '**/.aws-sam' >> .gitignore
+echo '**/*.sqlite3' >> .gitignore
 sam pipeline init --bootstrap
 git add .
 git commit -m ":tada: init commit"
 git push
 ```
+
+## deploy sqlite and hono endpoint
+
+### init infra
+
+```ruby
+mkdir infra
+cd infra
+cdk --version # 2.173.1
+cdk init -l typescript
+```
+
+### create 3 files
+
+- infra/bin/infra.ts
+- infra/lib/file-system-stack.ts
+- infra/lib/vpc-lambda-stack.ts
+- infra/lib/vpc-subnet-stack.ts
+
+### add tempporary handler and deploy
+
+`cdk deploy --all`
+
+```ts
+// handler.ts
+export const handler = () => {
+  console.log(`Hello Lambda!`);
+};
+```
+
+## invoke to access vpc resource
+
+### install 3 package to invoke
+
+```
+npm i hono sqlite @aws-sdk/client-lambda
+```
+
+### create 3 files
+
+- infra/handler.ts
+- infra/invoker.ts
+- infra/schema.sql
 
 ## More
 
@@ -95,4 +138,3 @@ git push
 > The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 > 
 > Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-> 
