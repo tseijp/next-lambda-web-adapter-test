@@ -64,8 +64,8 @@ git push
 ```ruby
 mkdir infra
 cd infra
-cdk --version # 2.173.1
-cdk init -l typescript
+npx cdk --version # 2.173.1
+npx cdk init -l typescript
 ```
 
 ### create 3 files
@@ -77,7 +77,7 @@ cdk init -l typescript
 
 ### add tempporary handler and deploy
 
-`cdk deploy --all`
+`npx cdk deploy --all`
 
 ```ts
 // handler.ts
@@ -88,13 +88,17 @@ export const handler = () => {
 
 ## invoke to access vpc resource
 
+### config iam
+
 ### install 3 package to invoke
 
 ```
-npm i hono sqlite @aws-sdk/client-lambda
+npm i hono sqlite zod @aws-sdk/client-lambda @hono/zod-validator @hono/node-server
 ```
 
 ### create 3 files
+
+local test and deploy by `npx cdk deploy --all`
 
 - infra/handler.ts
 - infra/invoker.ts
