@@ -26,7 +26,6 @@ export interface Blobs {
   file_data: string;
   file_name: string;
   file_type: string;
-  file_size: number;
   created_at?: string;
   updated_at?: string;
 }

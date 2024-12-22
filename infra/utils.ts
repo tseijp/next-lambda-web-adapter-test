@@ -32,6 +32,5 @@ export async function fileArgs(file: File) {
   const file_data = Buffer.from(buffer).toString("base64");
   const file_name = Buffer.from(file.name, "latin1").toString("utf8");
   const file_type = file.type;
-  const file_size = buffer.byteLength;
-  return [file_data, file_name, file_size, file_type] as const;
+  return [file_data, file_name, file_type] as const;
 }

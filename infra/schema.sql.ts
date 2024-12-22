@@ -13,7 +13,6 @@ CREATE TABLE IF NOT EXISTS blobs (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   file_data BLOB NOT NULL,
   file_name TEXT NOT NULL,
-  file_size INTEGER NOT NULL,
   file_type TEXT NOT NULL CHECK(file_type IN ('image/jpeg', 'image/png', 'image/svg+xml', 'application/pdf', 'text/html')),
   created_at TEXT DEFAULT (datetime('now')),
   updated_at TEXT DEFAULT (datetime('now'))
@@ -28,7 +27,7 @@ CREATE TABLE IF NOT EXISTS forms (
   form_title TEXT DEFAULT NULL,
   created_at TEXT DEFAULT (datetime('now')),
   updated_at TEXT DEFAULT (datetime('now')),
-  FOREIGN KEY (api) REFERENCES apis(api) ON DELETE RESTRICT
+  FOREIGN KEY (api) REFERENCES apis(api)
 );
 
 -- DROP TABLE IF EXISTS items;
@@ -40,9 +39,9 @@ CREATE TABLE IF NOT EXISTS items (
   pathname TEXT DEFAULT NULL,
   created_at TEXT DEFAULT (datetime('now')),
   updated_at TEXT DEFAULT (datetime('now')),
-  FOREIGN KEY (id) REFERENCES blobs(id) ON DELETE RESTRICT,
-  FOREIGN KEY (id) REFERENCES forms(id) ON DELETE RESTRICT,
-  FOREIGN KEY (id) REFERENCES pages(id) ON DELETE RESTRICT
+  FOREIGN KEY (id) REFERENCES blobs(id),
+  FOREIGN KEY (id) REFERENCES forms(id),
+  FOREIGN KEY (id) REFERENCES pages(id)
 );
 
 -- DROP TABLE IF EXISTS pages;

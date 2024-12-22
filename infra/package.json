@@ -7,8 +7,10 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
-    "test": "jest",
-    "cdk": "cdk"
+    "cdk": "cdk",
+    "test": "RUNTIME_ENV=local jest",
+    "jest": "RUNTIME_ENV=local jest --watch",
+    "serve": "RUNTIME_ENV=serve npx tsx watch ./handler.ts"
   },
   "devDependencies": {
     "@types/jest": "^29.5.14",

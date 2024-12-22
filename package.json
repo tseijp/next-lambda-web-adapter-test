@@ -6,8 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "serve": "RUNTIME_ENV=local npx tsx watch infra/handler.ts"
+    "lint": "next lint"
   },
   "dependencies": {
     "@hono/node-server": "^1.13.7",
