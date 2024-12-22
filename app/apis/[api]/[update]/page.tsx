@@ -9,12 +9,15 @@ import { updatePagesAction } from "./server";
 const app = invoker();
 
 interface Props {
-  api: string;
-  update: string;
+  params: Promise<{
+    api: string;
+    update: string;
+  }>;
 }
 
 export default async function CMSApisIdUpdatePage(props: Props) {
-  const { api, update: pathname } = props;
+  const { params } = props;
+  const { api, update: pathname } = await params;
   const res = await app.pages[":pathname"].$get({ param: { pathname } });
   if (!res.ok) return "Pages Not Found";
 

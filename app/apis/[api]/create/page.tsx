@@ -10,11 +10,12 @@ import { createPagesAction } from "./server";
 const app = invoker();
 
 interface Props {
-  api: string;
+  params: Promise<{ api: string }>;
 }
 
 export default async function CMSApisIdCreatePage(props: Props) {
-  const { api } = props;
+  const { params } = props;
+  const { api } = await params;
   const res = await app.forms.api[":api"].$get({ param: { api } });
   if (!res.ok) return "Error";
   const forms = await res.json();

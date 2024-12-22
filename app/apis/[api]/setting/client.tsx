@@ -6,11 +6,12 @@ import React, { useState } from "react";
 import { createFormsAction, removeFormsAction } from "./server";
 
 interface CreateFormProps {
-  api: string;
+  params: Promise<{ api: string }>;
 }
 
-export function CreateForm(props: CreateFormProps) {
-  const { api } = props;
+export async function CreateForm(props: CreateFormProps) {
+  const { params } = props;
+  const { api } = await params;
   const handleClick = async () => {
     const res = await createFormsAction(api);
     if (res.statusCode === 200) window.location.reload();

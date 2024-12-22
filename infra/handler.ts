@@ -339,8 +339,8 @@ export const routes = app
 export type AppType = typeof routes;
 
 if (isServe) {
-  console.log(`ready: Listening on http://localhost:3000/`);
-  serve({ fetch: routes.fetch, port: 3000 });
+  console.log(`ready: Listening on http://localhost:3001/`);
+  serve({ fetch: routes.fetch, port: 3001 });
 }
 
 export const handler = handle(app);

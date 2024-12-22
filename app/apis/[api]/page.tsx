@@ -3,11 +3,12 @@ import Header from "@/app/_atoms/Header";
 import PagesTable from "./table";
 
 interface Props {
-  api: string;
+  params: Promise<{ api: string }>;
 }
 
 export default async function ApisAllPage(props: Props) {
-  const { api } = props;
+  const { params } = props;
+  const { api } = await params;
   return (
     <>
       <Header title={api} href={`/apis/${api}/setting`} setting="API 設定">

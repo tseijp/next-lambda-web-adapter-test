@@ -1,3 +1,5 @@
+"use client";
+
 import Border from "./Border";
 import React, { Fragment, useRef, useState } from "react";
 import { createPortal } from "react-dom";

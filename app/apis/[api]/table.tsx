@@ -50,7 +50,7 @@ export default async function PagesTable(props: Props) {
         {pages.map((page) => (
           <TableRow
             key={page.pathname}
-            href={`/apis/${api}/update/${page.pathname}`}
+            href={`/apis/${api}/${page.pathname}`}
             className="flex hover:bg-[#F2FCFF] cursor-pointer"
           >
             <td className="firstChild">

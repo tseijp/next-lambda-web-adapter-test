@@ -23,11 +23,12 @@ import {
 const app = invoker();
 
 interface Props {
-  api: string;
+  params: Promise<{ api: string }>;
 }
 
 export default async function CMSApisIdSettingPage(props: Props) {
-  const { api } = props;
+  const { params } = props;
+  const { api } = await params;
   const [res0, res1] = await Promise.all([
     app.forms.api[":api"].$get({ param: { api } }),
     app.pages.api[":api"].$get({ param: { api } }),

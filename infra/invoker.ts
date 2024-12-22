@@ -1,7 +1,9 @@
 // infra/invoker.ts
 import { Lambda } from "@aws-sdk/client-lambda";
 import { hc } from "hono/client";
-import type { AppType } from "./handler";
+import {routes, type AppType } from "./handler";
+
+const isLocal = process.env.RUNTIME_ENV === "local";
 
 const lambda = new Lambda({
   region: process.env.VPC_LAMBDA_AWS_REGION!,
@@ -32,4 +34,8 @@ const customFetch = async (path: RequestInfo | URL, init?: RequestInit) => {
   return new Response(obj.body);
 };
 
-export const invoker = () => hc<AppType>("", { fetch: customFetch });
+export const invoker = () => {
+  if (isLocal)
+    return hc<AppType>("http://localhost:3001");
+  return hc<AppType>("", { fetch: customFetch });
+}
