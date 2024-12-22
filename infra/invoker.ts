@@ -1,7 +1,7 @@
 // infra/invoker.ts
-import { AppType } from "./handler";
 import { Lambda } from "@aws-sdk/client-lambda";
 import { hc } from "hono/client";
+import type { AppType } from "./handler";
 
 const lambda = new Lambda({
   region: process.env.VPC_LAMBDA_AWS_REGION!,
