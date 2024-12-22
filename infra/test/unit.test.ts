@@ -37,43 +37,43 @@ beforeAll(async () => {
 });
 
 describe("Database Integration Tests", () => {
-  // it("create api and pages", async () => {
-  //   let _item: ParsedCSV;
-  //   let cache = { pref: 0, city: 0, pref_kana: 0, city_kana: 0 };
-  //   for (const item of test_csv)
-  //     if (!item.city) {
-  //       // Create api, forms and root pages
-  //       _item = item;
-  //       const [pref, city, pref_kana, city_kana] = await Promise.all([
-  //         ...DEFAULT_FORMS.map((form) =>
-  //           $.forms.$post({ json: { api: item.code, ...form } as any })
-  //         ),
-  //         $.apis.$post({ json: { api: item.code, title: item.pref } }),
-  //         $.pages.$post({ json: { pathname: item.code, title: item.pref } })
-  //       ]);
-  //       Object.assign(cache, { pref, city, pref_kana, city_kana });
-  //     } else {
-  //       // create pages and forms
-  //       await Promise.all([
-  //         $.pages.$post({
-  //           json: {
-  //             pathname: item.code,
-  //             title: item.city ?? null,
-  //             api: _item!.code,
-  //           },
-  //         }),
-  //         ...DEFAULT_FORMS.map(({ form_name }) =>
-  //           $.items.$post({
-  //             json: {
-  //               pathname: item.code,
-  //               form_id: (cache as any)[form_name],
-  //               content: (item as any)[form_name],
-  //             },
-  //           })
-  //         ),
-  //       ]);
-  //     }
-  // });
+  it("create api and pages", async () => {
+    let _item: ParsedCSV;
+    let cache = { pref: 0, city: 0, pref_kana: 0, city_kana: 0 };
+    for (const item of test_csv)
+      if (!item.city) {
+        // Create api, forms and root pages
+        _item = item;
+        const [pref, city, pref_kana, city_kana] = await Promise.all([
+          ...DEFAULT_FORMS.map((form) =>
+            $.forms.$post({ json: { api: item.code, ...form } as any })
+          ),
+          $.apis.$post({ json: { api: item.code, title: item.pref } }),
+          $.pages.$post({ json: { pathname: item.code, title: item.pref } }),
+        ]);
+        Object.assign(cache, { pref, city, pref_kana, city_kana });
+      } else {
+        // create pages and forms
+        await Promise.all([
+          $.pages.$post({
+            json: {
+              pathname: item.code,
+              title: item.city ?? null,
+              api: _item!.code,
+            },
+          }),
+          ...DEFAULT_FORMS.map(({ form_name }) =>
+            $.items.$post({
+              json: {
+                pathname: item.code,
+                form_id: (cache as any)[form_name],
+                content: (item as any)[form_name],
+              },
+            })
+          ),
+        ]);
+      }
+  });
 
   /**
    * CRUD operations
@@ -190,11 +190,11 @@ describe("Database Integration Tests", () => {
     json.content = "Updated";
     await $.items[":id"].$patch({ json, param });
     item = await req();
-    // expect(item!?.content).toBe("Updated"); @TODO FIX
+    expect(item!?.content).toBe("Updated");
 
     // delete the content item
     await $.items[":id"].$delete({ param });
     item = await req();
-    // expect(item).toBe(null); @TODO FIX
+    expect(item).toBe(null);
   });
 });

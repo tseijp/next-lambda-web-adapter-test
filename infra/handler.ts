@@ -197,7 +197,7 @@ export const routes = app
   .get("/items/:id", async (c) => {
     const q = /* SQL */ `SELECT * FROM items WHERE id = ?`;
     const id = c.req.param("id");
-    const res = one<Items>(q, id);
+    const res = await one<Items>(q, id);
     if (!res) return c.text("Not found", 404);
     return c.json(res);
   })
