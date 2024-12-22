@@ -1,6 +1,6 @@
 import { db } from "./handler";
 
-export async function all<T>(query: string, ...args: any[]) {
+export async function all<T extends any[]>(query: string, ...args: any[]) {
   return new Promise<T>((resolve, reject) => {
     db.all(query, args, function (err, rows) {
       if (err) return reject(err);

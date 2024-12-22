@@ -4,8 +4,10 @@ import Header from "@/app/_atoms/Header";
 import Field from "@/app/_atoms/Field";
 import Title from "@/app/_atoms/Title";
 // import actions from "@/_server";
-// import models from "@/_server/models";
 import { randomUUID } from "crypto";
+import { invoker } from "@/infra/invoker";
+
+const app = invoker();
 
 interface Props {
   api: string;
@@ -13,7 +15,9 @@ interface Props {
 
 export default async function CMSApisIdCreatePage(props: Props) {
   const { api } = props;
-  const forms = await models.forms.listByApi(api);
+  const res = await app.forms.api[":api"].$get({ param: { api } });
+  if (!res.ok) return "Error";
+  const forms = await res.json();
   return (
     <Form _action={actions.pages.create.bind(null, api)}>
       <Header title={api} setting="API 設定" href={`/apis/${api}/setting`}>

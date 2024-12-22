@@ -3,10 +3,14 @@ import Datetime from "@/app/_atoms/DateTime";
 import Header from "@/app/_atoms/Header";
 import Table from "@/app/_atoms/Table";
 import { TableRow } from "@/app/apis/[api]/client";
-// import models from "@/_server/models";
+import { invoker } from "@/infra/invoker";
+
+const app = invoker();
 
 export default async function ApisPage() {
-  const apis = await models.apis.list();
+  const res = await app.apis.$get()
+  if (!res.ok) return null;
+  const apis = await res.json();
   return (
     <>
       <Header title="API 管理">

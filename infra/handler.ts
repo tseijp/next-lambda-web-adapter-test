@@ -88,7 +88,7 @@ export const routes = app
   // blobs list
   .get("/blobs", async (c) => {
     const q = /* SQL */ `SELECT * FROM blobs`;
-    const res = await all<Blobs>(q);
+    const res = await all<Blobs[]>(q);
     return c.json(res);
   })
   // blobs create
@@ -145,6 +145,7 @@ export const routes = app
     return c.json(res);
   })
   // forms list by api
+  // @TODO FIX api to apis
   .get("/forms/api/:api", async (c) => {
     const q = /* SQL */ `SELECT * FROM forms WHERE api = ?`;
     const api = c.req.param("api");
@@ -204,21 +205,22 @@ export const routes = app
   // items list
   .get("/items", async (c) => {
     const q = /* SQL */ `SELECT * FROM items`;
-    const res = all<Items>(q);
+    const res = await all<Items[]>(q);
     return c.json(res);
   })
   // items list by pathname
+  // @TODO FIX apis to pages
   .get("/items/apis/:pathname", async (c) => {
     const q = /* SQL */ `SELECT * FROM items WHERE pathname = ?`;
     const pathname = c.req.param("pathname");
-    const res = all<Items>(q, pathname);
+    const res = await all<Items[]>(q, pathname);
     return c.json(res);
   })
   // items list by form_id
   .get("/items/forms/:form_id", async (c) => {
     const q = /* SQL */ `SELECT * FROM items WHERE form_id = ?`;
     const form_id = c.req.param("form_id");
-    const res = all<Items>(q, form_id);
+    const res = await all<Items[]>(q, form_id);
     return c.json(res);
   })
   .post(

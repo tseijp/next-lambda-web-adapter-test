@@ -105,11 +105,3 @@ export function TableRow(props: React.ComponentProps<typeof LinkedTableRow>) {
   useSyncExternalStore(sub, get, get);
   return <LinkedTableRow disable={set.size > 0} {...props} />;
 }
-
-export function Modal(props) {
-  const [query, set] = useState();
-  useEffect(() => {
-    window.addEventListener("hashchange", () => {});
-  }, []);
-  if (query) return null;
-}

@@ -3,8 +3,9 @@ import Form from "@/app/_atoms/Form";
 import Header from "@/app/_atoms/Header";
 import Field from "@/app/_atoms/Field";
 import Title from "@/app/_atoms/Title";
-// import actions from "@/_server";
-// import models from "@/_server/models";
+import { invoker } from "@/infra/invoker";
+
+const app = invoker();
 
 interface Props {
   api: string;
@@ -13,16 +14,21 @@ interface Props {
 
 export default async function CMSApisIdUpdatePage(props: Props) {
   const { api, update: pathname } = props;
-  const page = await models.pages.get(pathname);
-  if (!page) return "Pages Not Found";
-  const [forms, items] = await Promise.all([
-    await models.forms.listByApi(api),
-    await models.items.listByPathname(page.pathname),
+  const res = await app.pages[":pathname"].$get({ param: { pathname } });
+  if (!res.ok) return "Pages Not Found";
+
+  const [res0, res1] = await Promise.all([
+    app.forms.api[":api"].$get({ param: { api } }),
+    app.items.apis[":pathname"].$get({ param: { pathname } }),
   ]);
+
+  const [forms, items] = await Promise.all([res0.json(), res1.json()]);
+
   const getValue = (id: number) => {
     const current = items.find(({ form_id }) => form_id === id);
     return current?.content ?? "";
   };
+
   return (
     <Form _action={actions.pages.update.bind(null, api, pathname)}>
       <Header title={api} setting="API 設定" href={`/apis/${api}/setting`}>

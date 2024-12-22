@@ -1,4 +1,4 @@
-import { PagesTable } from "@/app/apis/[api]/pages";
+import PagesTable from "@/app/apis/[api]/table";
 import Border from "@/app/_atoms/Border";
 import Button from "@/app/_atoms/Button";
 import Field from "@/app/_atoms/Field";
@@ -12,9 +12,11 @@ import {
   ConditionalDelete,
 } from "@/app/apis/[api]/setting/client";
 // import actions from "@/_server";
-// import models from "@/_server/models";
 import { FORM_TYPES } from "@/app/const";
 import { Fragment } from "react/jsx-runtime";
+import { invoker } from "@/infra/invoker";
+
+const app = invoker();
 
 interface Props {
   api: string;
@@ -22,10 +24,12 @@ interface Props {
 
 export default async function CMSApisIdSettingPage(props: Props) {
   const { api } = props;
-  const [forms, pages] = await Promise.all([
-    models.forms.listByApi(api),
-    models.pages.listByApi(api),
+  const [res0, res1] = await Promise.all([
+    app.forms.api[":api"].$get({ param: { api } }),
+    app.pages.api[":api"].$get({ param: { api } }),
   ]);
+
+  const [forms, pages] = await Promise.all([res0.json(), res1.json()]);
 
   return (
     <>

@@ -1,8 +1,9 @@
 import "./style.css";
 import { MenuLink, WrapLinks } from "@/app/client";
 import { invoker } from "@/infra/invoker";
-// import models from "@/_server/models";
 import React from "react";
+
+const app = invoker();
 
 interface RootLayoutProps {
   children: React.ReactNode;
@@ -11,7 +12,10 @@ interface RootLayoutProps {
 
 export default async function RootLayout(props: RootLayoutProps) {
   const { children, path } = props;
-  const apis = await models.apis.list();
+  const res = await app.apis.$get();
+  if (!res.ok) return null;
+  const apis = await res.json()
+
   return (
     <div>
       <main>
