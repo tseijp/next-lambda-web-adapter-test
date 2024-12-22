@@ -3,7 +3,7 @@
 import Button from "@/app/_atoms/Button";
 import Field from "@/app/_atoms/Field";
 import React, { useState } from "react";
-// import actions from "@/_server";
+import { createFormsAction, removeFormsAction } from "./server";
 
 interface CreateFormProps {
   api: string;
@@ -12,7 +12,7 @@ interface CreateFormProps {
 export function CreateForm(props: CreateFormProps) {
   const { api } = props;
   const handleClick = async () => {
-    const res = await actions.forms.create(api);
+    const res = await createFormsAction(api);
     if (res.statusCode === 200) window.location.reload();
   };
   return (
@@ -34,7 +34,7 @@ interface RemoveFormProps {
 export function RemoveForm(props: RemoveFormProps) {
   const { api, formId } = props;
   const handleClick = async () => {
-    const res = await actions.forms.remove(api, formId);
+    const res = await removeFormsAction(api, formId);
     if (res.statusCode === 200) window.location.reload();
   };
 

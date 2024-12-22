@@ -3,9 +3,9 @@ import Form from "@/app/_atoms/Form";
 import Header from "@/app/_atoms/Header";
 import Field from "@/app/_atoms/Field";
 import Title from "@/app/_atoms/Title";
-// import actions from "@/_server";
-import { randomUUID } from "crypto";
 import { invoker } from "@/infra/invoker";
+import { randomUUID } from "crypto";
+import { createPagesAction } from "./server";
 
 const app = invoker();
 
@@ -19,7 +19,7 @@ export default async function CMSApisIdCreatePage(props: Props) {
   if (!res.ok) return "Error";
   const forms = await res.json();
   return (
-    <Form _action={actions.pages.create.bind(null, api)}>
+    <Form _action={createPagesAction.bind(null, api)}>
       <Header title={api} setting="API 設定" href={`/apis/${api}/setting`}>
         <div />
         <Button type="submit" className="text-white bg-[#FB773F]">

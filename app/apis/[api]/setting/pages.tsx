@@ -11,10 +11,14 @@ import {
   RemoveForm,
   ConditionalDelete,
 } from "@/app/apis/[api]/setting/client";
-// import actions from "@/_server";
 import { FORM_TYPES } from "@/app/const";
 import { Fragment } from "react/jsx-runtime";
 import { invoker } from "@/infra/invoker";
+import {
+  removeApisAction,
+  removePagesAction,
+  updateFormsAction,
+} from "./server";
 
 const app = invoker();
 
@@ -33,7 +37,7 @@ export default async function CMSApisIdSettingPage(props: Props) {
 
   return (
     <>
-      <Form _action={actions.forms.update.bind(null, api)}>
+      <Form _action={updateFormsAction.bind(null, api)}>
         <Header
           active
           title={api}
@@ -95,7 +99,7 @@ export default async function CMSApisIdSettingPage(props: Props) {
           <Button className="flex-0 h-12 border border-[#DC2647] text-[#DC2647] hover:opacity-50 disabled:opacity-25">
             コンテンツを完全に削除
           </Button>
-          <Form _action={actions.pages.remove.bind(null, api)} className="p-10">
+          <Form _action={removePagesAction.bind(null, api)} className="p-10">
             <ConditionalDelete value={api} />
           </Form>
         </Modal>
@@ -106,7 +110,7 @@ export default async function CMSApisIdSettingPage(props: Props) {
           >
             API を完全に削除
           </Button>
-          <Form _action={actions.apis.remove.bind(null, api)} className="p-10">
+          <Form _action={removeApisAction.bind(null, api)} className="p-10">
             <ConditionalDelete value={api} />
           </Form>
         </Modal>

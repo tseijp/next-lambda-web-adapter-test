@@ -3,9 +3,8 @@
 import Button from "@/app/_atoms/Button";
 import Dropdown from "@/app/_atoms/Dropdown";
 import { LinkedTableRow } from "@/app/_atoms/Table";
-// import actions from "@/_server";
-// import { allRemove } from "@/_server/pages";
-import React, { useEffect, useState, useSyncExternalStore } from "react";
+import React, { useEffect, useSyncExternalStore } from "react";
+import { removeAllPagesAction } from "./server";
 
 interface DeleteButtonProps extends React.HTMLProps<HTMLButtonElement> {
   pathname: string;
@@ -17,7 +16,7 @@ export function DeleteButton(props: DeleteButtonProps) {
 
   const handleClick = async () => {
     if (!window.confirm("削除しますか？")) return;
-    const res = await actions.pages.allRemove(pathname, isDeleted);
+    const res = await removeAllPagesAction(pathname, isDeleted);
     if (res.statusCode !== 200) return;
     alert("削除しました");
     window.location.reload();
@@ -38,7 +37,9 @@ export function DeleteAllButton(props: DeleteAllButtonProps) {
 
   const handleClick = async () => {
     if (!window.confirm("全て削除しますか？")) return;
-    await Promise.all([...set].map((path) => allRemove(path, isDeleted)));
+    await Promise.all(
+      [...set].map((path) => removeAllPagesAction(path, isDeleted))
+    );
     alert("削除しました");
     window.location.reload();
     set.clear();

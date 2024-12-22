@@ -1,7 +1,7 @@
 import Button from "@/app/_atoms/Button";
 import Form from "@/app/_atoms/Form";
 import Field from "@/app/_atoms/Field";
-// import actions from "@/_server";
+import { createApisAction } from "./server";
 
 export default async function CreatePage() {
   return (
@@ -10,7 +10,7 @@ export default async function CreatePage() {
         API の基本情報を入力
       </h1>
       <Form
-        _action={actions.apis.create}
+        _action={createApisAction}
         className="mx-auto p-10 max-w-[800px] flex flex-col rounded-lg bg-[#F8F9FD]"
       >
         <Field name="title" title="API 名" />

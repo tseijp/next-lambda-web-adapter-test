@@ -1,9 +1,6 @@
 "use server";
 
-/**
- * public method
- */
-export async function create(formData: FormData) {
+export async function createApisAction(formData: FormData) {
   try {
     const title = formData.get("title") as string | null;
     const api = formData.get("api") as string | null;
@@ -12,17 +9,6 @@ export async function create(formData: FormData) {
     // insert new api
     await models.apis.create({ title, api });
     const redirect = `/apis/${api}/setting`;
-    return { statusCode: 200, redirect };
-  } catch (error) {
-    console.error(error);
-    return { statusCode: 500 };
-  }
-}
-
-export async function remove(api: string) {
-  try {
-    await models.apis.remove(api);
-    const redirect = `/apis`;
     return { statusCode: 200, redirect };
   } catch (error) {
     console.error(error);

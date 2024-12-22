@@ -4,6 +4,7 @@ import Header from "@/app/_atoms/Header";
 import Field from "@/app/_atoms/Field";
 import Title from "@/app/_atoms/Title";
 import { invoker } from "@/infra/invoker";
+import { updatePagesAction } from "./server";
 
 const app = invoker();
 
@@ -30,7 +31,7 @@ export default async function CMSApisIdUpdatePage(props: Props) {
   };
 
   return (
-    <Form _action={actions.pages.update.bind(null, api, pathname)}>
+    <Form _action={updatePagesAction.bind(null, api, pathname)}>
       <Header title={api} setting="API 設定" href={`/apis/${api}/setting`}>
         {/* <Button className="text-[#563BFE] border border-[#563BFE]">
             下書きを保存
